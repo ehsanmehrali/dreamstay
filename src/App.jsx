@@ -1,8 +1,25 @@
 import React from "react";
-import "./App.css";
+// import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import About from "./pages/Aboute";
+import Home from "./pages/Home";
+import ContactUs from "./pages/ContactUs";
 
-function App() {
-  return <h1>app running</h1>;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<ContactUs />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App;
+/* <Route to="/" element={<Layout />}>
+  <Route path="index" element={<About />} />
+</Route> */
