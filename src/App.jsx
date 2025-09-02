@@ -2,7 +2,7 @@ import React from "react";
 // import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
-import About from "./pages/Aboute";
+import About from "./pages/About";
 import Home from "./pages/Home";
 import ContactUs from "./pages/ContactUs";
 
@@ -21,5 +21,5 @@ export default function App() {
 }
 
 /* <Route to="/" element={<Layout />}>
-  <Route path="index" element={<About />} />
+<Route path="index" element={<About />} />
 </Route> */

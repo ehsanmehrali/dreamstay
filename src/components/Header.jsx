@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, NavLink, Link } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.svg";
 import {
   FiMenu,
   FiX,
@@ -10,15 +10,6 @@ import {
   FiLogIn,
 } from "react-icons/fi";
 
-/**
- * Responsive Navbar (RTL-friendly)
- * - Burger menu on the right, Login button to its left
- * - Always hamburger (mobile + desktop)
- * - Mobile menu: full-screen overlay
- * - Desktop menu: centered modal
- * - Close menu with: Escape, top-left X, bottom Close button, or after selecting an item
- * - Tailwind-only styling
- */
 export default function Header() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
@@ -56,17 +47,14 @@ export default function Header() {
 
   // Body scroll lock + focus management when menu opens
   useEffect(() => {
-    const originalOverflow = document.documentElement.style.overflow;
     if (open) {
-      document.documentElement.style.overflow = "hidden";
-      // Focus the first actionable element
+      document.documentElement.classList.add("overflow-hidden");
+      // Focus the first actionable element in the menu (the close button)
       setTimeout(() => firstActionRef.current?.focus(), 0);
     } else {
-      document.documentElement.style.overflow = originalOverflow || "";
+      document.documentElement.classList.remove("overflow-hidden");
     }
-    return () => {
-      document.documentElement.style.overflow = originalOverflow || "";
-    };
+    return () => document.documentElement.classList.remove("overflow-hidden");
   }, [open]);
 
   // Keyboard: Escape to close
@@ -82,29 +70,29 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-gray-200">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 md:h-16 flex items-center">
+    <header className="bg-white/40 z-50">
+      <nav className="px-3 w-full h-14 md:h-16 flex items-center justify-between">
         {/* Brand / Logo as a Link on the left */}
         <Link
           to="/"
           aria-label="Home"
-          className="mr-auto flex items-center gap-2 group"
+          className="flex items-center gap-2 group"
         >
           <img
             src={logo}
             alt="App logo"
-            className="h-7 w-auto md:h-8 select-none"
+            className="block h-10 md:h-12 w-auto"
           />
           <span className="sr-only">Home</span>
         </Link>
 
         {/* Right-side controls: Login button (left of burger), then burger on the far right */}
-        <div className="ml-auto flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-2 md:gap-3">
           <Link
             to="/login"
-            className="px-3 py-1.5 md:px-4 md:py-2 rounded-xl border border-gray-300 hover:border-gray-400 active:scale-[0.98] transition text-sm md:text-base"
+            className="text-[#111827] [font-weight:500] hover:[font-weight:600] px-3 py-1 md:px-4 md:py-2 rounded-xl bg-[#D9E05E] transition duration-150 ease-out hover:opacity-80 active:scale-[0.98] text-sm md:text-base"
           >
-            Login
+            LOGIN-SIGNUP
           </Link>
 
           <button
@@ -113,10 +101,12 @@ export default function Header() {
             aria-expanded={open}
             aria-controls="nav-menu"
             onClick={() => setOpen(true)}
-            className="p-2 md:p-3 rounded-xl border border-gray-300 hover:border-gray-400 active:scale-[0.98] transition"
+            className="text-[#111827] p-1.5 md:p-2 rounded-xl transition duration-150 ease-out hover:bg-[#D9E05E] hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-[#D9E05E]"
           >
-            {/* Burger icon (react-icons) */}
-            <FiMenu aria-hidden="true" className="text-[20px] md:text-[24px]" />
+            <FiMenu
+              aria-hidden="true"
+              className="text-[20px] md:text-[24px] [stroke-width:2] md:[stroke-width:2.2] [transform:scaleX(1.2)_scaleY(1.08)] md:[transform:scaleX(1.25)_scaleY(1.4)]"
+            />
           </button>
         </div>
       </nav>
@@ -150,12 +140,9 @@ export default function Header() {
                 </button>
                 <div className="px-10 py-5 text-center">
                   <h2 className="text-lg font-semibold text-gray-900">Menu</h2>
-                  <p className="mt-1 text-xs text-gray-500">
-                    Select a destination
-                  </p>
                 </div>
               </div>
-
+              {/* Menu items */}
               <div className="px-5 pb-5">
                 <ul className="space-y-2">
                   {items.map((item, idx) => {
@@ -187,7 +174,7 @@ export default function Header() {
                   })}
                 </ul>
               </div>
-
+              {/* Footer with Close button */}
               <div className="mt-auto p-5 border-t border-gray-200">
                 <button
                   onClick={() => setOpen(false)}
