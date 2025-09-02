@@ -46,30 +46,30 @@ export default function Home() {
         {/* Search bar*/}
         <div className="mt-0 md:mt-10 w-full">
           {/* Container to center the search bar and limit its max width */}
-          <div className="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-10 gap-3 md:gap-6">
+          <div className="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-10 gap-3 lg:gap-4 xl:gap-6">
             {/* Destination */}
-            <label className="col-span-2 md:col-span-3 flex items-center gap-3 md:gap-5 rounded-xl md:rounded-2xl bg-white px-4 py-3 md:px-8 md:py-6 shadow-md">
-              <FiMapPin className="text-gray-500 text-lg md:text-3xl" />
+            <label className="col-span-2 md:col-span-3 flex items-center gap-3 lg:gap-4 xl:gap-5 rounded-xl lg:rounded-xl xl:rounded-2xl bg-white px-3 py-2 md:px-4 md:py-3 lg:px-6 lg:py-4 xl:px-8 xl:py-6 shadow-md">
+              <FiMapPin className="text-gray-500 text-base md:text-lg lg:text-xl xl:text-3xl" />
               <input
-                className="w-full bg-transparent outline-none placeholder-gray-500 text-gray-900 text-base md:text-xl placeholder:md:text-xl"
+                className="w-full min-w-0 bg-transparent outline-none text-gray-900 text-sm md:text-base lg:text-lg xl:text-xl placeholder-gray-500 placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg xl:placeholder:text-xl"
                 placeholder="Destination?"
               />
             </label>
 
             {/* Date */}
-            <button className="col-span-1 md:col-span-2 flex items-center gap-3 md:gap-5 rounded-xl md:rounded-2xl bg-white px-4 py-3 md:px-8 md:py-6 shadow-md text-gray-500 justify-start md:text-xl">
-              <FiCalendar className="text-gray-500 text-lg md:text-3xl" />
+            <button className="col-span-1 md:col-span-2 flex items-center gap-3 lg:gap-4 xl:gap-5 rounded-xl lg:rounded-xl xl:rounded-2xl bg-white px-3 py-2 md:px-4 md:py-3 lg:px-6 lg:py-4 xl:px-8 xl:py-6 shadow-md text-gray-500 text-sm md:text-base lg:text-lg xl:text-xl justify-start">
+              <FiCalendar className="text-gray-500 text-base md:text-lg lg:text-xl xl:text-3xl" />
               <span className="uppercase tracking-wide">DATE</span>
             </button>
 
             {/* Guests */}
-            <button className="col-span-1 md:col-span-2 flex items-center gap-3 md:gap-5 rounded-xl md:rounded-2xl bg-white px-4 py-3 md:px-8 md:py-6 shadow-md text-gray-500 justify-start md:text-xl">
-              <FiUsers className="text-gray-500 text-lg md:text-3xl" />
+            <button className="col-span-1 md:col-span-2 flex items-center gap-3 lg:gap-4 xl:gap-5 rounded-xl lg:rounded-xl xl:rounded-2xl bg-white px-3 py-2 md:px-4 md:py-3 lg:px-6 lg:py-4 xl:px-8 xl:py-6 shadow-md text-gray-500 text-sm md:text-base lg:text-lg xl:text-xl justify-start">
+              <FiUsers className="text-gray-500 text-base md:text-lg lg:text-xl xl:text-3xl" />
               <span className="uppercase tracking-wide">GUESTS</span>
             </button>
 
             {/* Search */}
-            <button className="col-span-2 md:col-span-3 rounded-xl md:rounded-2xl bg-[#D9E05E] px-6 py-3 md:px-12 md:py-6 shadow-md uppercase tracking-wide md:tracking-wider text-[#111827] font-medium md:text-xl hover:opacity-90">
+            <button className="col-span-2 md:col-span-3 rounded-xl lg:rounded-xl xl:rounded-2xl bg-[#D9E05E] px-4 py-2 md:px-6 md:py-3 lg:px-10 lg:py-5 xl:px-12 xl:py-6 shadow-md uppercase tracking-wide lg:tracking-wider text-[#111827] font-medium text-sm md:text-base lg:text-lg xl:text-xl hover:opacity-90">
               SEARCH
             </button>
           </div>
