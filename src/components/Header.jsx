@@ -70,7 +70,7 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="bg-white/40 z-50">
+    <header className="bg-[#111827]/40 z-50">
       <nav className="px-3 w-full h-14 md:h-16 flex items-center justify-between">
         {/* Brand / Logo as a Link on the left */}
         <Link
