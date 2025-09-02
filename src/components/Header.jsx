@@ -70,7 +70,7 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="bg-[#111827]/40 z-50">
+    <header className="bg-[#111827]/85 z-50">
       <nav className="px-3 w-full h-14 md:h-16 flex items-center justify-between">
         {/* Brand / Logo as a Link on the left */}
         <Link
@@ -90,7 +90,7 @@ export default function Header() {
         <div className="flex items-center gap-2 md:gap-3">
           <Link
             to="/login"
-            className="text-[#111827] [font-weight:500] hover:[font-weight:600] px-3 py-1 md:px-4 md:py-2 rounded-xl bg-[#D9E05E] transition duration-150 ease-out hover:opacity-80 active:scale-[0.98] text-sm md:text-base"
+            className="text-[#111827] [font-weight:500] hover:[font-weight:600] px-4 py-1.5 md:px-4 md:py-2 rounded-xl bg-[#D9E05E] transition duration-150 ease-out hover:opacity-80 active:scale-[0.98] text-sm md:text-base"
           >
             LOGIN-SIGNUP
           </Link>
