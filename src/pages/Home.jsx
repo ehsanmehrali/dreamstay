@@ -6,10 +6,10 @@ export default function Home() {
   return (
     <section className="relative h-screen -mt-14 md:-mt-16 pt-14 md:pt-16 overflow-hidden">
       {/* Mobile image card with overlay title */}
-      <div className="md:hidden w-full rounded-2xl overflow-hidden shadow-md bg-white/5 mb-0">
-        <div className="relative">
+      <div className="md:hidden w-full rounded-[8px] overflow-hidden  p-4 mb-0">
+        <div className="relative rounded-[8px] overflow-hidden">
           <img src={hero} alt="" className="w-full h-48 object-cover" />
-          <div className="absolute inset-0 bg-black/25" />
+          <div className="absolute inset-0 bg-black/25 pointer-events-none" />
           <div className="absolute left-4 top-4 right-4 text-white">
             <h2 className="text-3xl font-semibold tracking-[0.03em]">
               DREAM <span className="font-semibold">STAY</span>
@@ -31,7 +31,7 @@ export default function Home() {
       <div className="hidden md:block absolute inset-0 w-full h-full bg-[#111827]/85 -z-10 pointer-events-none" />
 
       {/* Yellow line under header*/}
-      <div className="absolute left-0 right-0 top-14 md:top-16 h-[2px] bg-[#D9E05E]" />
+      <div className="hidden md:block absolute left-4 right-4 top-14 md:top-16 h-[2px] bg-[#D9E05E]" />
 
       {/* Content*/}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 md:px-8 md:h-full flex flex-col items-center justify-start md:justify-center text-center text-white pt-1">
