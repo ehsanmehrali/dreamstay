@@ -1,9 +1,7 @@
 import React from "react";
+// import hero from "../assets/banner.jpg";
+import { FiMapPin, FiCalendar, FiUsers } from "react-icons/fi";
 
 export default function Home() {
-  return (
-    <div>
-      <h1>Home Page</h1>
-    </div>
-  );
+  return <h1>Home</h1>;
 }
