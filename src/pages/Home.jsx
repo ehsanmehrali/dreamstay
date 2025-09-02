@@ -5,33 +5,49 @@ import { FiMapPin, FiCalendar, FiUsers } from "react-icons/fi";
 export default function Home() {
   return (
     <section className="relative h-screen -mt-14 md:-mt-16 pt-14 md:pt-16 overflow-hidden">
-      {/* بک‌گراند */}
-      <img
-        src={hero} // این مسیر رو با عکس خودت عوض کن
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover -z-20"
-      />
-      {/* لایه‌ی تیره روی عکس */}
-      <div className="absolute inset-0 bg-[#111827]/75 -z-10 pointer-events-none" />
+      {/* Mobile image card with overlay title */}
+      <div className="md:hidden w-full rounded-2xl overflow-hidden shadow-md bg-white/5 mb-0">
+        <div className="relative">
+          <img src={hero} alt="" className="w-full h-48 object-cover" />
+          <div className="absolute inset-0 bg-black/25" />
+          <div className="absolute left-4 top-4 right-4 text-white">
+            <h2 className="text-3xl font-light tracking-[0.2em]">
+              DREAM <span className="font-semibold">STAY</span>
+            </h2>
+            <p className="mt-1 text-sm font-light tracking-wider">
+              is where life happens
+            </p>
+          </div>
+        </div>
+      </div>
 
-      {/* خط زرد زیر هدر (مثل اسکرین‌شات) */}
+      {/*Desktop image card with overlay title */}
+      <img
+        src={hero}
+        alt=""
+        className="hidden md:block absolute inset-0 w-full h-full object-cover -z-20"
+      />
+      {/* Dark layer on the photo */}
+      <div className="hidden md:block absolute inset-0 w-full h-full bg-[#111827]/55 -z-10 pointer-events-none" />
+
+      {/* Yellow line under header*/}
       <div className="absolute left-0 right-0 top-14 md:top-16 h-[2px] bg-[#D9E05E]" />
 
-      {/* محتوا */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 md:px-8 h-full flex flex-col items-center justify-center text-center text-white">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-[0.35em]">
-          DREAM <span className="font-medium">STAY</span>
+      {/* Content*/}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 md:px-8 md:h-full flex flex-col items-center justify-start md:justify-center text-center text-white pt-1">
+        <h1 className="hidden md:block text-4xl sm:text-5xl md:text-6xl font-light tracking-[0.35em]">
+          DREAM <span className="hidden md:block font-medium">STAY</span>
         </h1>
 
-        <p className="mt-6 text-lg md:text-2xl font-light tracking-[0.35em]">
+        <p className="hidden md:block mt-6 md:text-2xl font-light tracking-[0.35em]">
           is where life happens
         </p>
 
-        {/* نوار جستجو */}
-        <div className="mt-10 md:mt-14 w-full">
-          <div className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-4 gap-3">
+        {/* Search bar*/}
+        <div className="mt-0 md:mt-10 w-full">
+          <div className="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-3">
             {/* Destination */}
-            <label className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-md">
+            <label className="col-span-2 md:col-span-1 flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-md">
               <FiMapPin className="text-gray-500" />
               <input
                 className="w-full bg-transparent outline-none placeholder-gray-500 text-gray-900"
@@ -40,19 +56,19 @@ export default function Home() {
             </label>
 
             {/* Date */}
-            <button className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-md text-gray-900 justify-start">
+            <button className="col-span-1 flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-md text-gray-900 justify-start">
               <FiCalendar className="text-gray-500" />
               <span className="uppercase tracking-wide">DATE</span>
             </button>
 
             {/* Guests */}
-            <button className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-md text-gray-900 justify-start">
+            <button className="col-span-1 flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-md text-gray-900 justify-start">
               <FiUsers className="text-gray-500" />
               <span className="uppercase tracking-wide">GUESTS</span>
             </button>
 
             {/* Search */}
-            <button className="rounded-xl bg-[#D9E05E] px-6 py-3 shadow-md uppercase tracking-wide text-[#111827] font-medium hover:opacity-90">
+            <button className="col-span-2 md:col-span-1 rounded-xl bg-[#D9E05E] px-6 py-3 shadow-md uppercase tracking-wide text-[#111827] font-medium hover:opacity-90">
               SEARCH
             </button>
           </div>
