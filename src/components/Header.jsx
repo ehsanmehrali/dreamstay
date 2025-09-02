@@ -101,7 +101,7 @@ export default function Header() {
             aria-expanded={open}
             aria-controls="nav-menu"
             onClick={() => setOpen(true)}
-            className="text-[#111827] p-1.5 md:p-2 rounded-xl transition duration-150 ease-out hover:bg-[#D9E05E] hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-[#D9E05E]"
+            className="text-[#ffffff] p-1.5 md:p-2 rounded-xl transition duration-150 ease-out hover:bg-[#D9E05E] hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-[#D9E05E]"
           >
             <FiMenu
               aria-hidden="true"
