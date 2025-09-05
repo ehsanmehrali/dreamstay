@@ -1,8 +1,37 @@
 import React from "react";
 import hero from "../assets/banner.jpg";
 import { FiMapPin, FiCalendar, FiUsers } from "react-icons/fi";
+import DestinationField from "../components/DestinationField";
 
 export default function Home() {
+  const [destination, setDestination] = React.useState(null);
+  const dateBtnRef = React.useRef(null);
+
+  // Mock function to fetch trending destinations
+  async function fetchTrending() {
+    return [
+      { id: "loc:Tehran", label: "Tehran", count: 12 },
+      { id: "loc:Berlin", label: "Berlin", count: 7 },
+      { id: "loc:Hamburg", label: "Hamburg", count: 5 },
+    ];
+  }
+
+  async function fetchSuggest(q) {
+    const src = [
+      "Tehran",
+      "Berlin",
+      "Hamburg",
+      "Munich",
+      "Cologne",
+      "Kish Island",
+      "Shiraz",
+    ];
+    return src
+      .filter((x) => x.toLowerCase().includes(q.toLowerCase()))
+      .slice(0, 8)
+      .map((label, i) => ({ id: `mock:${label}:${i}`, label })); // Mock IDs
+  }
+
   return (
     <section className="relative h-screen -mt-14 md:-mt-16 pt-14 md:pt-16 overflow-hidden">
       {/* Mobile image card with overlay title */}
@@ -48,16 +77,19 @@ export default function Home() {
           {/* Container to center the search bar and limit its max width */}
           <div className="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-10 gap-3 lg:gap-4 xl:gap-6">
             {/* Destination */}
-            <label className="col-span-2 md:col-span-3 flex items-center gap-3 lg:gap-4 xl:gap-5 rounded-xl lg:rounded-xl xl:rounded-2xl bg-white px-3 py-2 md:px-4 md:py-3 lg:px-6 lg:py-4 xl:px-8 xl:py-6 shadow-md">
-              <FiMapPin className="text-gray-500 text-base md:text-lg lg:text-xl xl:text-3xl" />
-              <input
-                className="w-full min-w-0 bg-transparent outline-none text-gray-900 text-sm md:text-base lg:text-lg xl:text-xl placeholder-gray-500 placeholder:text-sm md:placeholder:text-base lg:placeholder:text-lg xl:placeholder:text-xl"
-                placeholder="Destination?"
-              />
-            </label>
-
+            <DestinationField
+              className="col-span-2 md:col-span-3"
+              value={destination}
+              onChange={setDestination}
+              onComplete={() => dateBtnRef.current?.focus()}
+              fetchSuggest={fetchSuggest}
+              fetchTrending={fetchTrending}
+            />
             {/* Date */}
-            <button className="col-span-1 md:col-span-2 flex items-center gap-3 lg:gap-4 xl:gap-5 rounded-xl lg:rounded-xl xl:rounded-2xl bg-white px-3 py-2 md:px-4 md:py-3 lg:px-6 lg:py-4 xl:px-8 xl:py-6 shadow-md text-gray-500 text-sm md:text-base lg:text-lg xl:text-xl justify-start">
+            <button
+              ref={dateBtnRef}
+              className="col-span-1 md:col-span-2 flex items-center gap-3 lg:gap-4 xl:gap-5 rounded-xl lg:rounded-xl xl:rounded-2xl bg-white px-3 py-2 md:px-4 md:py-3 lg:px-6 lg:py-4 xl:px-8 xl:py-6 shadow-md text-gray-500 text-sm md:text-base lg:text-lg xl:text-xl justify-start"
+            >
               <FiCalendar className="text-gray-500 text-base md:text-lg lg:text-xl xl:text-3xl" />
               <span className="uppercase tracking-wide">DATE</span>
             </button>
