@@ -17,7 +17,7 @@ function DatepickerImpl({ className = "", value, onChange }, ref) {
         className
       }
       onClick={() => {
-        // mock انتخاب تاریخ:
+        // mock date selection:
         const now = new Date();
         const end = new Date(now.getTime() + 24 * 60 * 60 * 1000);
         onChange?.({ start: now, end });

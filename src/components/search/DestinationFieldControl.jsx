@@ -5,7 +5,7 @@ import { useSearchForm } from "./SearchFormContext";
 export default function DestinationFieldControl({ className, onComplete }) {
   const { state, dispatch } = useSearchForm();
 
-  // سرویس‌های mock شما
+  // Mock API calls
   async function fetchTrending() {
     return [
       { id: "loc:Tehran", label: "Tehran", count: 12 },
