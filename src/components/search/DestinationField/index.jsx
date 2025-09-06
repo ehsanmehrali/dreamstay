@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { FiMapPin, FiClock, FiTrendingUp, FiX } from "react-icons/fi";
+import DestinationDropdown from "./DestinationDropdown";
+import MobileSheet from "./MobileSheet";
 
 // Hook: debounces the input value for search.
 function useDebouncedValue(value, delay = 250) {
@@ -22,6 +24,21 @@ function useLockBodyScroll(locked) {
       if (!hadOverflowHidden) root.classList.remove("overflow-hidden"); // Cleanup
     };
   }, [locked]);
+}
+
+/** media-query simple without library*/
+function useMediaQuery(query) {
+  const [match, setMatch] = React.useState(
+    () => window.matchMedia?.(query).matches ?? false
+  );
+  useEffect(() => {
+    const m = window.matchMedia(query);
+    const onChange = () => setMatch(m.matches);
+    m.addEventListener?.("change", onChange);
+    onChange();
+    return () => m.removeEventListener?.("change", onChange);
+  }, [query]);
+  return match;
 }
 
 export default function DestinationField({
@@ -184,7 +201,7 @@ export default function DestinationField({
     }
   }
 
-  // Group suggestions for display
+  // Group suggestions for display (no typing mode  → history + trending)
   const standbyGroups = useMemo(() => {
     if (isTyping) return null;
     return [
@@ -224,7 +241,7 @@ export default function DestinationField({
 
   return (
     <div ref={rootRef} className={`relative ${className}`}>
-      {/* Trigger / Field */}
+      {/* Trigger / Field (Desktop view) */}
       <label
         className={[
           "relative",
@@ -237,292 +254,68 @@ export default function DestinationField({
       >
         {inputCore}
 
-        {/* Input field inner close(clear) button */}
-        {
-          <button
-            type="button"
-            aria-label="Clear"
-            onMouseDown={(e) => e.preventDefault()} // Prevent blurring
-            onClick={() => {
-              setQ("");
-              setResults([]);
-              setHighlight(-1);
-              inputRef.current?.focus();
-            }}
-            tabIndex={-1} // Exclude from tab order
-            aria-hidden="true" // Hide from screen readers
-            className={[
-              "absolute right-2.5 md:right-3 top-1/2 -translate-y-1/2",
-              "p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100",
-              "transition-opacity",
-              focused && q ? "opacity-100" : "opacity-0 pointer-events-none",
-            ].join(" ")}
-          >
-            <FiX className="text-[14px] md:text-[16px]" />
-          </button>
-        }
+        {/* Clear button */}
+        <button
+          type="button"
+          aria-label="Clear"
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => {
+            setQ("");
+            setResults([]);
+            setHighlight(-1);
+            inputRef.current?.focus();
+          }}
+          tabIndex={-1}
+          aria-hidden="true"
+          className={[
+            "absolute right-2.5 md:right-3 top-1/2 -translate-y-1/2",
+            "p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100",
+            "transition-opacity",
+            focused && q ? "opacity-100" : "opacity-0 pointer-events-none",
+          ].join(" ")}
+        >
+          <FiX className="text-[14px] md:text-[16px]" />
+        </button>
       </label>
 
-      {/* Desktop Dropdown */}
+      {/* Dropdown desktop*/}
       {!isMobile && open && (
-        <div
-          role="listbox"
-          id="dest-listbox"
-          aria-expanded={open}
-          className="absolute z-50 mt-2 w-full rounded-xl border border-gray-200 bg-white shadow-lg p-2 max-h-80 overflow-auto"
-        >
-          {loading && (
-            <div className="px-3 py-2 text-sm text-gray-500">Loading…</div>
-          )}
-
-          {!isTyping &&
-            standbyGroups?.map((g, gi) => (
-              <div key={`grp-${gi}`} className="py-1">
-                <div className="px-3 py-1.5 text-xs uppercase tracking-wide text-gray-500 flex items-center gap-2">
-                  <span className="inline-flex">{g.icon}</span>
-                  <span>{g.title}</span>
-                </div>
-                {g.items.map((item, idx) => {
-                  const hi =
-                    idx + (gi === 0 ? 0 : standbyGroups[0]?.items?.length || 0);
-                  const active = highlight === hi;
-                  return (
-                    <div
-                      key={`${g.title}-${item.id ?? item.label}-${idx}`}
-                      role="option"
-                      aria-selected={active}
-                      onMouseDown={(e) => e.preventDefault()}
-                      onClick={() => selectItem(item)}
-                      className={[
-                        "px-3 py-2 rounded-lg cursor-pointer flex items-center gap-2",
-                        active ? "bg-gray-100" : "hover:bg-gray-50",
-                      ].join(" ")}
-                      onMouseEnter={() => setHighlight(hi)}
-                    >
-                      <FiMapPin className="text-gray-400" />
-                      <span className="text-sm text-gray-900">
-                        {item.label}
-                      </span>
-                      {item.count != null && (
-                        <span className="ml-auto text-xs text-gray-500">
-                          {item.count}
-                        </span>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
-
-          {isTyping &&
-            !loading &&
-            (results.length ? (
-              results.map((item, idx) => (
-                <div
-                  key={`r-${item.id ?? item.label}-${idx}`}
-                  role="option"
-                  aria-selected={highlight === idx}
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => selectItem(item)}
-                  className={[
-                    "px-3 py-2 rounded-lg cursor-pointer flex items-center gap-2",
-                    highlight === idx ? "bg-gray-100" : "hover:bg-gray-50",
-                  ].join(" ")}
-                  onMouseEnter={() => setHighlight(idx)}
-                >
-                  <FiMapPin className="text-gray-400" />
-                  <span className="text-sm text-gray-900">{item.label}</span>
-                  {item.count != null && (
-                    <span className="ml-auto text-xs text-gray-500">
-                      {item.count}
-                    </span>
-                  )}
-                </div>
-              ))
-            ) : (
-              <div className="px-3 py-2 text-sm text-gray-500">
-                No results for “{debouncedQ}”
-              </div>
-            ))}
-        </div>
+        <DestinationDropdown
+          open={open}
+          loading={loading}
+          isTyping={isTyping}
+          standbyGroups={standbyGroups}
+          results={results}
+          highlight={highlight}
+          setHighlight={setHighlight}
+          selectItem={selectItem}
+        />
       )}
 
-      {/* Mobile Sheet */}
+      {/* Mobile sheet*/}
       {isMobile && open && portalTarget
         ? createPortal(
-            <div
-              className="fixed inset-0 z-50 md:hidden"
-              role="dialog"
-              aria-modal="true"
-            >
-              <div
-                className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-                onClick={() => setOpen(false)}
-              />
-              <div
-                className="absolute inset-0 bg-white flex flex-col"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="p-4 pt-5 border-b border-gray-200">
-                  {/* Close button*/}
-                  <button
-                    aria-label="Close"
-                    onClick={() => setOpen(false)}
-                    className="p-2 rounded-lg border border-gray-300 hover:border-gray-400 active:scale-95"
-                  >
-                    <FiX className="text-[18px]" />
-                  </button>
-                  {/* Menu title */}
-                  <h2 className="mt-3 text-[15px] font-semibold text-gray-900">
-                    Destination
-                  </h2>
-                  <div className="mt-3">
-                    {/* Input with floating label */}
-                    <div className="relative">
-                      {/* Left side icon */}
-                      <FiMapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-
-                      {/* Input itself as a peer */}
-                      <input
-                        ref={inputRef}
-                        value={q}
-                        onChange={(e) => {
-                          setQ(e.target.value);
-                          setHighlight(-1);
-                        }}
-                        onBlur={() => setFocused(false)}
-                        onKeyDown={onKeyDown}
-                        className="peer w-full rounded-xl border border-gray-300 bg-white shadow-sm pl-10 pr-10 py-3 outline-none transition-all duration-200 focus:border-[#D9E05E] focus:ring-2 focus:ring-[#D9E05E] placeholder-transparent"
-                        placeholder=" " /* A single space, for placeholder-shown mode */
-                      />
-
-                      {/* ّFloating label*/}
-                      <label
-                        className="pointer-events-none absolute left-10 bg-white px-1 rounded text-gray-500 transition-all duration-200 ease-out 
-                        /* Initial state (like a placeholder in the middle of the input) */ 
-                        top-1/2 -translate-y-1/2 text-base 
-                        /* When it has focus or value: snap to the top edge of the border*/ 
-                        peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:text-xs peer-focus:text-gray-700
-                        peer-[&:not(:placeholder-shown)]:top-0 
-                        peer-[&:not(:placeholder-shown)]:-translate-y-1/2 
-                        peer-[&:not(:placeholder-shown)]:text-xs
-                        peer-[&:not(:placeholder-shown)]:text-gray-700"
-                      >
-                        Where to?
-                      </label>
-                      {
-                        <button
-                          type="button"
-                          aria-label="Clear"
-                          onMouseDown={(e) => e.preventDefault()}
-                          onClick={() => {
-                            setQ("");
-                            setResults([]);
-                            setHighlight(-1);
-                            inputRef.current?.focus();
-                          }}
-                          tabIndex={-1} // Exclude from tab order
-                          aria-hidden="true" // Hide from screen readers
-                          className={[
-                            "absolute right-3 top-1/2 -translate-y-1/2",
-                            "p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100",
-                            "transition-opacity",
-                            focused && q
-                              ? "opacity-100"
-                              : "opacity-0 pointer-events-none",
-                          ].join(" ")}
-                        >
-                          <FiX className="text-[16px]" />
-                        </button>
-                      }
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex-1 overflow-y-auto p-3">
-                  {loading && (
-                    <div className="px-1 py-2 text-sm text-gray-500">
-                      Loading…
-                    </div>
-                  )}
-
-                  {!isTyping &&
-                    standbyGroups?.map((g, gi) => (
-                      <div key={`mgrp-${gi}`} className="mb-4">
-                        <div className="px-1 py-2 text-xs uppercase tracking-wide text-gray-500 flex items-center gap-2">
-                          <span className="inline-flex">{g.icon}</span>
-                          <span>{g.title}</span>
-                        </div>
-                        <div className="space-y-1">
-                          {g.items.map((item, idx) => (
-                            <button
-                              key={`mi-${g.title}-${
-                                item.id ?? item.label
-                              }-${idx}`}
-                              onClick={() => selectItem(item)}
-                              className="w-full text-left px-3 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 active:scale-[0.99] flex items-center gap-2"
-                            >
-                              <FiMapPin className="text-gray-400" />
-                              <span className="text-gray-900">
-                                {item.label}
-                              </span>
-                              {item.count != null && (
-                                <span className="ml-auto text-xs text-gray-500">
-                                  {item.count}
-                                </span>
-                              )}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-
-                  {isTyping &&
-                    !loading &&
-                    (results.length ? (
-                      <div className="space-y-1">
-                        {results.map((item, idx) => (
-                          <button
-                            key={`mr-${item.id ?? item.label}-${idx}`}
-                            onClick={() => selectItem(item)}
-                            className="w-full text-left px-3 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 active:scale-[0.99] flex items-center gap-2"
-                          >
-                            <FiMapPin className="text-gray-400" />
-                            <span className="text-gray-900">{item.label}</span>
-                            {item.count != null && (
-                              <span className="ml-auto text-xs text-gray-500">
-                                {item.count}
-                              </span>
-                            )}
-                          </button>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="px-1 py-2 text-sm text-gray-500">
-                        No results for “{debouncedQ}”
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </div>,
+            <MobileSheet
+              open={open}
+              onClose={() => setOpen(false)}
+              q={q}
+              setQ={(val) => {
+                setQ(val);
+                setHighlight(-1);
+              }}
+              inputRef={inputRef}
+              onKeyDown={onKeyDown}
+              loading={loading}
+              isTyping={isTyping}
+              standbyGroups={standbyGroups}
+              results={results}
+              selectItem={selectItem}
+              focused={focused}
+              setFocused={setFocused}
+            />,
             portalTarget
           )
         : null}
     </div>
   );
-}
-
-/** media-query simple without library*/
-function useMediaQuery(query) {
-  const [match, setMatch] = React.useState(
-    () => window.matchMedia?.(query).matches ?? false
-  );
-  useEffect(() => {
-    const m = window.matchMedia(query);
-    const onChange = () => setMatch(m.matches);
-    m.addEventListener?.("change", onChange);
-    onChange();
-    return () => m.removeEventListener?.("change", onChange);
-  }, [query]);
-  return match;
 }
