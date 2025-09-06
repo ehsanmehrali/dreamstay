@@ -10,7 +10,7 @@ export default function Layout() {
       <main className="flex-1 relative z-10">
         <Outlet />
       </main>
-      {/* Footer اگر داری */}
+      {/* Footer */}
     </div>
   );
 }
