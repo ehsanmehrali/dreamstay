@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import hero from "../assets/banner.jpg";
 import { FiMapPin, FiCalendar, FiUsers } from "react-icons/fi";
-// import DestinationField from "../components/DestinationField";
 import SearchForm from "../components/Search/SearchForm";
 
 export default function Home() {
