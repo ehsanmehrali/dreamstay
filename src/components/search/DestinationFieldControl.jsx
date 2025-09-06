@@ -1,6 +1,6 @@
 import React from "react";
 import DestinationField from "./DestinationField";
-import { useSearchForm } from "./SearchFormContext";
+import { useSearchForm } from "./useSearchForm";
 
 export default function DestinationFieldControl({ className, onComplete }) {
   const { state, dispatch } = useSearchForm();

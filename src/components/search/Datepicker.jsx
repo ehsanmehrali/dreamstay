@@ -24,9 +24,7 @@ function DatepickerImpl({ className = "", value, onChange }, ref) {
       }}
     >
       <FiCalendar className="text-gray-500 text-base md:text-lg lg:text-xl xl:text-3xl" />
-      <span className="uppercase tracking-wide">
-        {value ? "DATE PICKED" : "DATE"}
-      </span>
+      <span className="uppercase tracking-wide">{"DATE"}</span>
     </button>
   );
 }

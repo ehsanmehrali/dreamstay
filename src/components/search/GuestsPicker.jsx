@@ -16,7 +16,7 @@ function GuestsPickerImpl({ className = "", value = 1, onChange }, ref) {
       }
     >
       <FiUsers className="text-gray-500 text-base md:text-lg lg:text-xl xl:text-3xl" />
-      <span className="uppercase tracking-wide">GUESTS: {value}</span>
+      <span className="uppercase tracking-wide">GUESTS</span>
     </button>
   );
 }

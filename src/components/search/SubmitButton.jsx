@@ -1,5 +1,5 @@
 import React from "react";
-import { useSearchForm } from "./SearchFormContext";
+import { useSearchForm } from "./useSearchForm";
 
 export default function SubmitButton({ className = "" }) {
   const { isValid } = useSearchForm();

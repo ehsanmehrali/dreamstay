@@ -1,5 +1,6 @@
 import React from "react";
-import { SearchFormProvider, useSearchForm } from "./SearchFormContext";
+import { SearchFormProvider } from "./SearchFormProvider";
+import { useSearchForm } from "./useSearchForm";
 import DestinationFieldControl from "./DestinationFieldControl";
 import Datepicker from "./Datepicker";
 import GuestsPicker from "./GuestsPicker";
